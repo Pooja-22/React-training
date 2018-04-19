@@ -11,6 +11,7 @@ module.exports = {
         port: 3000,
         publicPath: '/'
     },
+    //mode: "development",
     module: {
         rules: [
             {

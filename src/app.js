@@ -1,47 +1,68 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Hola from './Hola';
 
-import Todo from './Todo';
+const env = process.env.NODE_ENV;
 
 export default class App extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            todoItem: '',
-            list: [],
+            propForHola: 0,
+            isHola : true
         };
+        //console.log('APP :: constructor');
     }
 
-    setTodoItem = (e) => {
-        this.setState({
-            todoItem: e.target.value
-        });
-    };
+    componentWillMount() {
+        //console.log("APP :: componentWillMount");
+    }
 
-    addTodos = () => {
-        const { todoItem, list } = this.state;
-        const updatedArray = [...list, todoItem];
-        this.setState({
-            list: updatedArray,
-            todoItem: '',
-        });
-    };
+    componentWillReceiveProps(nextProps) {
+        //console.log('APP :: componentWillReceiveProps', nextProps.todoItem);
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        //console.log('APP :: componentWillUpdate')
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        //console.log('APP :: shouldComponentUpdate');
+        return true;
+    }
 
     render() {
-        const { todoItem, list } = this.state;
-
+        //console.log('APP :: render');
         return (
             <div>
-                <span>To Do List</span>
-
-                <input value={todoItem} onChange={this.setTodoItem}/>
-                <button onClick={this.addTodos}>Add</button>
-
-                {list.map((item, index) => {
-                    console.log(typeof item)
-                    return (<Todo todoItem={item} key={index} />)
-                })}
+                <button onClick={() => this._onClick('bola')}>bola</button>
+                <button onClick={() => this._onClick('tola')}>tola</button>
+                <button onClick={() => this._toggleHola()}>remove Hola</button>
+                {
+                    this.state.isHola?
+                        <Hola myProp={this.state.propForHola}></Hola>
+                        :
+                        null
+                }
             </div>
         )
+    }
+    _onClick = (val) => {
+        this.setState({
+            propForHola: val
+        });
+    }
+
+    _toggleHola = () =>{
+        this.setState({isHola : !this.state.isHola});
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        //console.log('APP :: componentDidUpdate')
+    }
+
+    componentDidMount() {
+        //console.log("APP :: componentDidMount");
     }
 }
